@@ -1,3 +1,6 @@
+'''
+Functions to get input from the APIs
+'''
 from typing import Dict, Any
 import requests
 import datetime 
@@ -20,3 +23,4 @@ def get_cves_from_last_n_days(n: int) -> Dict[str, Any]:
     # Get a json response from the cve database
     r = requests.get("https://services.nvd.nist.gov/rest/json/cves/1.0/", params=get_timestamp_payload(n))
     return r.json()
+
