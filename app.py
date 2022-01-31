@@ -1,15 +1,20 @@
 '''
 Entrypoint for CVE mapping app
 '''
-import pandas as pd
+import argparse
 import json
 from cve import get_cves_from_last_n_days
-from ecs_data import ECSData, populate_ECSData_from_json
+from lib.output import write_to_console, write_to_file
 
-ecs_fields = pd.read_csv("resources/ecs_fields.csv")
-vuln_fields = [x for x in list(ecs_fields["Field"]) if "vulnerability" in x]
+main(inputs):
+    if inputs.outfile:
+        write_to_file(inputs.outfile)
+    else:
+        write_to_console()
 
-
-for cve_item in get_cves_from_last_n_days(120)["result"]['CVE_Items']:
-    data_object = populate_ECSData_from_json(cve_item)
-    print(data_object.asdict())
+if __name__ == "__main__":
+    PARSER = argparse.ArgumentParser(description="Map from NVD to ECS fields")
+    PARSER.add_argument("--outfile", "-o", type=str,
+                        help="Optional output to file")
+    inputs=PARSER.parse_args()
+    main(inputs)
