@@ -24,3 +24,10 @@ def get_cves_from_last_n_days(n: int) -> Dict[str, Any]:
     r = requests.get("https://services.nvd.nist.gov/rest/json/cves/1.0/", params=get_timestamp_payload(n))
     return r.json()
 
+def get_num_pages_from_response(response: Any) -> int:
+    # Just gets an int, really leaning in to functions here
+    return response["totalResults"]/response["resultsPerPage"]
+
+def get_page_n_of_cves(n: int) -> Any:
+    r = requests.get 
+    return
