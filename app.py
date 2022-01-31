@@ -5,6 +5,7 @@ import argparse
 import json
 from lib.ingest import get_cves_from_last_n_days, get_num_pages_from_response
 from lib.output import write_to_console, write_to_file
+from lib.map import get_results_for_n_days
 
 def main(inputs):
     print(get_num_pages_from_response(get_cves_from_last_n_days(120)))
