@@ -1,7 +1,7 @@
 '''
 Functions to write output
 '''
-from lib.map import
+from lib.map import *
 
 def write_to_file(thing_to_write: Any, output_file: str) -> None:
     with open(output_file, 'w') as outfile:

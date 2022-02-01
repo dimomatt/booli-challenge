@@ -24,20 +24,26 @@ def get_timestamp_payload(n: int) -> Dict[str, str]:
 
 def get_cve_metadata_from_last_n_days(n: int) -> Dict[str, Any]:
     # Get a json response from the cve database
-    param = get_timestamp_payload(n).update({"resultsPerPage": 0})
+    param = get_timestamp_payload(n)
+    param["resultsPerPage"] = 0
     r = requests.get("https://services.nvd.nist.gov/rest/json/cves/1.0/", params=param)
     return r.json()
 
-def get_page_sizes(response: Any) -> List[int]:
-    num_pages = ceil(response["totalResults"]/MAX_PAGE_SIZE)
-    last_page_size = response[totalResults]%MAX_PAGE_SIZE
-    page_size_list = [MAX_PAGE_SIZE] * num_pages
-    page_size_list.append(last_page_size)
-    return page_size_list
+def get_start_indices(response: Any) -> List[int]:
+    total_results = response["totalResults"]
+    last_page_size = response["totalResults"]%MAX_PAGE_SIZE
+    start_index_list = []
+    total_results -= last_page_size
+    while total_results > 0:
+        start_index_list.insert(0, total_results)
+        total_results -= MAX_PAGE_SIZE
+    start_index_list.insert(0,0)
+    return start_index_list
 
-def get_page_n_of_cves(n: int, page_sizes: int, num_days: int) -> Any:
-    request_params = {"startIndex": n * MAX_PAGE_SIZE, "resultsPerPage": MAX_PAGE_SIZE}
-    request_params.update(get_timestamp_payload(int))
+def get_page_of_cves(start_index: int, num_days: int) -> Any:
+    request_params = {"startIndex": start_index, "resultsPerPage": MAX_PAGE_SIZE}
+    request_params.update(get_timestamp_payload(num_days))
     r = requests.get("https://services.nvd.nist.gov/rest/json/cves/1.0/", params=request_params)
     return r.json()
+
 
