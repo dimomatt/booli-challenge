@@ -4,8 +4,9 @@ Functions to write output
 from lib.map import *
 
 def write_to_file(thing_to_write: Any, output_file: str) -> None:
+    """Writes to a file"""
     with open(output_file, 'w') as outfile:
-        outfile.write(thing_to_write)
+        outfile.write(str(thing_to_write))
     return
 
 def write_to_console(thing_to_write: Any) -> None:
