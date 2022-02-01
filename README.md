@@ -6,3 +6,4 @@ Some deficiences here are:
   - I have not done a great job of mapping data to ecs fields, I would need to spend more time in the docs to do that well.
   - The extractors are more brittle to data being missing than I would like. I think a future implementation would either autogenerate getters from a csv file that maps NVD fields to ECS fields, which would allow me to do more error checking at a field by field level, but I feel okay about this solution. 
   - Testing! I felt that most of these functions are pretty easy to understand, but testing is always better than no testing. I will probably add some tests tomorrow.
+  - The dockerfile probably works 
